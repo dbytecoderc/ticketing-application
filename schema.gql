@@ -9,6 +9,28 @@ input CreateUserDTO {
   name: String!
 }
 
+type Event {
+  id: ID!
+  event_title: String!
+  start_time: String!
+  end_time: String!
+  isActive: Boolean!
+  isDeleted: Boolean!
+  deletedBy: User!
+  createdBy: User!
+}
+
+input EventDTO {
+  event_title: String!
+  start_time: String!
+  end_time: String!
+}
+
+type EventRO {
+  message: MessageType!
+  event: Event!
+}
+
 input LoginUserDTO {
   password: String!
   email: String!
@@ -22,10 +44,22 @@ type MessageType {
 type Mutation {
   register(data: CreateUserDTO!): UserRO!
   login(data: LoginUserDTO!): UserRO!
+  createEvent(data: EventDTO!): EventRO!
+  updateEvent(data: UpdateEventDTO!): Event!
+  deleteEvent(id: String!): MessageType!
 }
 
 type Query {
   getUser: String!
+  allEvents: [Event!]!
+  event(id: String!): Event!
+}
+
+input UpdateEventDTO {
+  id: String!
+  event_title: String!
+  start_time: String!
+  end_time: String!
 }
 
 type User {
