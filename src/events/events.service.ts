@@ -57,6 +57,16 @@ export class EventsService {
       where: { id, isDeleted: false },
     });
 
+    if (!event) {
+      const messages = {
+        message: 'event does not exist',
+      };
+      throw new ConflictException({
+        messages,
+        status: HttpStatus.NOT_FOUND,
+      });
+    }
+
     return event;
   }
 

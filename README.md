@@ -1,75 +1,160 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
-
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The **Ticketing-application** is an application that facilitates the process of creating tickets. The project was built with typescript using the **[Nest](https://github.com/nestjs/nest)** framework.
 
-## Installation
+- Key Application features
 
-```bash
-$ npm install
-```
+1. Favorite Management
+   - Creation of Events
+   - Editing of different events
+   - Deleting an event
+   - Retrieving an event
+   - Retrieving all events
 
-## Running the app
+## Technology Stack
 
-```bash
-# development
-$ npm run start
+- Typescript
+- NestJs
+- Postgres
 
-# watch mode
-$ npm run start:dev
+### Setting Up For Local Development
 
-# production mode
-$ npm run start:prod
-```
+- Make sure nodejs is installed using the command:
 
-## Test
+  ```
+  node -v
+  ```
 
-```bash
-# unit tests
-$ npm run test
+- If you don't have nodejs installed follow this **[link](https://nodejs.org/en/)** to install nodejs
 
-# e2e tests
-$ npm run test:e2e
+* Clone the repository:
 
-# test coverage
-$ npm run test:cov
-```
+  ```
+  git clone https://github.com/dbytecoderc/ticketing-application.git
+  ```
 
-## Support
+* Navigate into the project directory and install the dependencies:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+  ```
+  cd ticketing-application
 
-## Stay in touch
+  npm install
+  ```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+* Setup environment variables using the .env.example file as a guide:
 
-## License
+- Start the application using the command:
 
-  Nest is [MIT licensed](LICENSE).
+  ```
+  npm run start:dev
+  ```
+
+### Test the application with the following graphql queries
+
+- To register a user on the platform use:
+
+  ```
+  mutation{
+    register(data: {
+      email: "oparahdc@gmail.com", password: "password", name: "DC"}){
+      message{
+        message
+        status
+      }
+      user{
+        id
+        email
+        name
+        isActive
+      }
+      token
+    }
+  }
+  ```
+
+- To authenticate a user use:
+
+  ```
+  mutation{
+    login(data: {email: "oparahdc@gmail.com", password: "password"}){
+      message{
+        message
+        status
+      }
+      user{
+        id
+        isActive
+      }
+      token
+    }
+  }
+  ```
+
+### The following graphql queries would need Bearer token header attched to the request to work
+
+- To create an event use:
+
+  ```
+  mutation{
+    createEvent(data: {event_title: "New event", start_time: "2020-12-19T06:01:17.171Z", end_time: "2020-12-19T06:01:17.171Z"}){
+      message{
+        message,
+        status
+      }
+      event{
+        event_title
+      }
+    }
+  }
+  ```
+
+- To retrieve all events use:
+
+  ```
+  query{
+    allEvents{
+      event_title
+      start_time
+      end_time
+      isActive
+    }
+  }
+  ```
+
+- To retrieve a single event use:
+
+  ```
+  query{
+    event(id: "d4573f7a-737a-49e9-ad25-895bdc99fcaa"){
+      id
+      event_title
+      start_time
+      end_time
+    }
+  }
+  ```
+
+- To update a single event use:
+
+  ```
+  mutation{
+    updateEvent(data: {
+      id: "f69c6a31-72c4-445f-ba9d-f1548f0a5e6b", event_title: "updated title", start_time: "2020-12-19T06:01:17.171Z", end_time: "2020-12-19T06:01:17.171Z"}){
+      event_title
+    }
+  }
+  ```
+
+- To delete a single event use:
+
+  ```
+  mutation{
+    deleteEvent(id: "f69c6a31-72c4-445f-ba9d-f1548f0a5e6b"){
+      message
+    }
+  }
+  ```
+
+### DB schema
+
+![Entity relationship diagram](https://github.com/dbytecoderc/ticketing-application/blob/develop/ticketing%20app.png)
